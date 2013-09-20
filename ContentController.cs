@@ -21,6 +21,20 @@ namespace OurPublishedContentApi
             var node = umbraco.uQuery.GetNodeByUrl(path);
             return ContentHelpers.NodeProperties(node);
         }
+        public object GetParent(int? id = 0)
+        {
+            var node = umbraco.uQuery.GetNode(id ?? 0);
+            return ContentHelpers.Parent(node);
+        }
+        public object GetParent(string path)
+        {
+            var node = umbraco.uQuery.GetNodeByUrl(path);
+            return ContentHelpers.Parent(node);
+        }
+    }
+    [PluginController("PublishedContent")]
+    public class NodesController : UmbracoApiController
+    {
         public object GetChildren(int? id = 0)
         {
             var node = umbraco.uQuery.GetNode(id ?? 0);
@@ -41,17 +55,33 @@ namespace OurPublishedContentApi
             var node = umbraco.uQuery.GetNodeByUrl(path);
             return ContentHelpers.Ancestors(node);
         }
-        public object GetParent(int? id = 0)
+        public object GetDescendantsAndSelf(int? id = 0)
         {
             var node = umbraco.uQuery.GetNode(id ?? 0);
-            return ContentHelpers.Parent(node);
+            return ContentHelpers.DescendantsAndSelf(node);
         }
-        public object GetParent(string path)
+        public object GetDescendantsAndSelf(string path)
         {
             var node = umbraco.uQuery.GetNodeByUrl(path);
-            return ContentHelpers.Parent(node);
+            return ContentHelpers.DescendantsAndSelf(node);
         }
+
     }
 
+    [PluginController("PublishedContent")]
+    public class NavigationController : UmbracoApiController
+    {
+        public object GetTree(int? id = 0)
+        {
+            var node = umbraco.uQuery.GetNode(id ?? 0);
+            return ContentHelpers.NodeNavigation(node);
+        }
+        public object GetTree(string path)
+        {
+            var node = umbraco.uQuery.GetNodeByUrl(path);
+            return ContentHelpers.NodeNavigation(node);
+        }
+        
+    }
 
 }

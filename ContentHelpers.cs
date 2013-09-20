@@ -18,11 +18,11 @@ namespace OurPublishedContentApi
         {
             return node.GetAncestorNodes().Select(n => NodeProperties(n));
         }
-        public static object Descendants(Node node)
+        public static object DescendantsAndSelf(Node node)
         {
-            return node.GetDescendantNodes().Select(n => NodeProperties(n));
+            return NodeProperties(node, true);
         }
-        public static object NodeProperties(Node node)
+        public static object NodeProperties(Node node, bool traverseChildren = false)
         {
             return
             new
@@ -31,18 +31,38 @@ namespace OurPublishedContentApi
                 node.Level,
                 node.NiceUrl,
                 node.Name,
+                node.SortOrder,
                 node.UrlName,
                 node.NodeTypeAlias,
                 node.CreatorName,
-                node.template,
+                Template = node.template,
                 /*Template = template.Alias,*/
                 Properties = node.PropertiesAsList.Select(p => new { p.Alias, Value = p.Value }).ToDictionary(k => k.Alias, k => k.Value),
                 node.CreateDate,
                 node.UpdateDate,
-                node.SortOrder,
-                node.Url,
                 ParentId = (node.Parent != null) ? node.Parent.Id : -1,
-                ChildIds = node.ChildrenAsList.Select(n => n.Id)
+                Children = (traverseChildren) ? node.ChildrenAsList.Select(n => NodeProperties(n as Node, traverseChildren)) : node.ChildrenAsList.Select(n => n.Id as object) 
+            };
+        }
+        public static bool NodeVisible(Node node)
+        {
+            if (node.HasProperty("umbracoNaviHide")) return !node.GetProperty<bool>("umbracoNaviHide");
+            if (node.HasProperty("visible")) return node.GetProperty<bool>("visible");
+            return false;
+
+
+        }
+        public static object NodeNavigation(Node node)
+        {
+            return
+            new
+            {
+                node.NiceUrl,
+                node.Name,
+                Visible = NodeVisible(node),
+                node.Id,
+                node.UrlName,
+                Children = node.ChildrenAsList.Select(n => NodeNavigation(n as Node))
             };
         }
     }

@@ -25,8 +25,14 @@ All requests must be as GET and as application/json (so you'll need fiddler/curl
 
 ###Returns hierarchy of nodes:
 
-	/nodetree/getdescendants/{id}
-	/nodetree/getdescendants?path=...
+	/nodes/getdescendantsandself/{id}
+	/nodes/getdescendantsandself?path=...
+
+
+###Returns navigation tree (only name, url, id & visible) of nodes:
+
+	/navigation/gettree/{id}
+	/navigation/gettree?path=...
 
 
 ###Node format for single node
@@ -36,10 +42,11 @@ All requests must be as GET and as application/json (so you'll need fiddler/curl
 		"Level": 3,
 		"NiceUrl": "/foo/bar/",
 		"Name": "Bar",
+		"SortOrder": 3,
 		"UrlName": "bar",
 		"NodeTypeAlias": "content",
 		"CreatorName": "admin",
-		"template": 1093,
+		"Template": 1093,
 		"Properties": {
 			"umbracoNaviHide": "0",
 			"contactPerson": "",
@@ -51,7 +58,37 @@ All requests must be as GET and as application/json (so you'll need fiddler/curl
 		},
 		"CreateDate": "2013-09-20T06:27:16",
 		"UpdateDate": "2013-09-20T06:35:25",
-		"SortOrder": 3,
 		"ParentId": 1086,
-		"ChildIds": []
+		"ChildIds": [1089,1090]
+	}
+
+###Format for navigation tree
+
+	{
+		"NiceUrl": "/some-root/",
+		"Name": "Some Root",
+		"Visible": false,
+		"Id": 1081,
+		"UrlName": "some-root",
+		"Children": [{
+			"NiceUrl": "/somechild/",
+			"Name": "Some child",
+			"Visible": true,
+			"Id": 1084,
+			"UrlName": "somechild",
+			"Children": []
+		}, {
+			"NiceUrl": "/some-other-child/",
+			"Name": "Some other child",
+			"Visible": true,
+			"Id": 1086,
+			"UrlName": "some-other-child",
+			"Children": [{
+				...
+			}, {
+				...
+			}, {
+				...
+			}]
+		}]
 	}
