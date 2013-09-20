@@ -27,3 +27,31 @@ All requests must be as GET and as application/json (so you'll need fiddler/curl
 
 	/nodetree/getdescendants/{id}
 	/nodetree/getdescendants?path=...
+
+
+###Node format for single node
+
+	{
+		"Id": 1087,
+		"Level": 3,
+		"NiceUrl": "/foo/bar/",
+		"Name": "Bar",
+		"UrlName": "bar",
+		"NodeTypeAlias": "content",
+		"CreatorName": "admin",
+		"template": 1093,
+		"Properties": {
+			"umbracoNaviHide": "0",
+			"contactPerson": "",
+			"pageAdministrator": "",
+			"linkedNodes": "",
+			"bodyText": "<p>yada yada yada</p>",
+			"header": "",
+			"introduction": ""
+		},
+		"CreateDate": "2013-09-20T06:27:16",
+		"UpdateDate": "2013-09-20T06:35:25",
+		"SortOrder": 3,
+		"ParentId": 1086,
+		"ChildIds": []
+	}
